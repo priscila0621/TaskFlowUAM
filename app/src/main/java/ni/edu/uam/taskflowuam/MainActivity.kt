@@ -1,47 +1,24 @@
-package ni.edu.uam.taskflowuam
+package ni.edu.uam.taskflow
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import ni.edu.uam.taskflowuam.ui.theme.TaskFlowUAMTheme
+import ni.edu.uam.taskflow.navigation.NavGraph
+import ni.edu.uam.taskflow.ui.theme.TaskFlowTheme
+import ni.edu.uam.taskflow.viewmodel.TaskViewModel
 
 class MainActivity : ComponentActivity() {
+
+    // 🔥 ViewModel único para toda la app
+    private val vm = TaskViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContent {
-            TaskFlowUAMTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            TaskFlowTheme {
+                NavGraph(vm)
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TaskFlowUAMTheme {
-        Greeting("Android")
     }
 }
