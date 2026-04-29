@@ -99,7 +99,15 @@ fun AddTaskScreen(nav: NavController, vm: TaskViewModel) {
 
             Button(onClick = {
 
-                // 🔥 VALIDACIÓN AQUÍ
+                // 🔥 VALIDACIÓN NUEVA (TÍTULO)
+                if (title.isBlank()) {
+                    scope.launch {
+                        snackbarHostState.showSnackbar("El título es obligatorio ❌")
+                    }
+                    return@Button
+                }
+
+                // 🔥 VALIDACIÓN DE FECHA
                 if (!isValidDate(dueDate)) {
                     scope.launch {
                         snackbarHostState.showSnackbar("La fecha no puede ser pasada ❌")
@@ -107,6 +115,7 @@ fun AddTaskScreen(nav: NavController, vm: TaskViewModel) {
                     return@Button
                 }
 
+                // ✅ SOLO SI TODO ESTÁ BIEN
                 vm.addTask(title, desc, priority, dueDate)
 
                 scope.launch {
@@ -114,12 +123,14 @@ fun AddTaskScreen(nav: NavController, vm: TaskViewModel) {
                 }
 
                 nav.popBackStack()
+
             }) {
                 Text("Guardar")
             }
         }
     }
 
+    // 📅 DATE PICKER
     if (showDatePicker) {
         val dateState = rememberDatePickerState()
 
